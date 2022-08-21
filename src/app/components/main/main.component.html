@@ -1,0 +1,10 @@
+<form class="w3-container">
+
+    <label>Add an option to select from</label>
+    <input class="w3-input" type="text" (keyup)="setGame($event)">
+    
+    
+</form>
+<button class="w3-button w3-red" (click)="newGame()">Add</button>
+<button class="w3-button w3-green" (click)="findRandomGame()">Select Random</button>
+<app-game *ngFor="let game of allGames" [gameString]="game"></app-game>
