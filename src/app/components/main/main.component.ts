@@ -11,27 +11,39 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  gameString: any
+  gameString: any = ""
   allGames: any = []
   index: any = 0
   target: any
-  newGame() {
-    this.allGames.push({
-      name: this.gameString,
-      index: this.index,
-      isSelected: false
+  presetGames = ["Valorant", "Rocket League", "Unrailed"]
 
-    })
-    this.index++
-    this.gameString = ""
-    this.target.value = ""
-    
+  preset() {
+    for (let i = 0; i < this.presetGames.length; i++) {
+      this.allGames.push({name: this.presetGames[i], index: this.index, isSelected: false})
+      this.index++
+    }
+
+  }
+  newGame() {
+    if (this.gameString != "") {
+      this.allGames.push({
+        name: this.gameString,
+        index: this.index,
+        isSelected: false
+  
+      })
+      this.index++
+      this.gameString = ""
+      this.target.value = ""
+      
+    }
+
   }
 
   setGame(Event: any) {
-    this.gameString = Event.target.value
     this.target = Event.target
-    
+    this.gameString = Event.target.value
+      
   }
 
   highlight(index: any) {
@@ -46,12 +58,17 @@ export class MainComponent implements OnInit {
   current = 0
   randomNumber: any
   loops = 0
+  isActive = false
   findRandomGame() {
-    this.loops = 0
-    //select a random number between 5 and 40
-    this.randomNumber = Math.floor(Math.random() * (40 - 5 + 1)) + 5
-    this.current = 0
-    this.loop()
+    if(!this.isActive){
+      this.loops = 0
+      //select a random number between 5 and 40
+      this.randomNumber = Math.floor(Math.random() * (40 - 5 + 1)) + 5
+      this.current = 0
+      this.isActive = true
+      this.loop()
+    }
+
 
   }
 
@@ -60,6 +77,7 @@ export class MainComponent implements OnInit {
     this.current++
     if (this.current >= this.allGames.length) {
       this.current = 0
+      
     }
     if (!(this.loops == this.randomNumber)) {
       setTimeout(() => {
@@ -67,7 +85,10 @@ export class MainComponent implements OnInit {
         this.loop()
         
       }, 200)
+    } else {
+      this.isActive = false
     }
+
   }
 
 }
